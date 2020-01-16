@@ -55,5 +55,14 @@ namespace PureFreak.ObjectMapper.Tests
             Assert.AreEqual(source.Id, target.Id);
             Assert.AreEqual(source.Username, target.Username);
         }
+
+        [TestMethod]
+        public void ShouldReturnNullIfSourceIsNull()
+        {
+            IObjectConverter converter = new ObjectConverter();
+            var target = converter.Convert<TargetEntity>(null);
+
+            Assert.IsNull(target);
+        }
     }
 }

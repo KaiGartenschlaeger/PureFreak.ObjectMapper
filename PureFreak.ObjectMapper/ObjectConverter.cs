@@ -40,6 +40,8 @@ namespace PureFreak.ObjectMapper
         }
 
         public void MapProperties<TSource, TTarget>(TSource source, TTarget target)
+            where TSource : class
+            where TTarget : class
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -50,9 +52,10 @@ namespace PureFreak.ObjectMapper
         }
 
         public T Convert<T>(object source)
+            where T : class
         {
             if (source == null)
-                throw new ArgumentNullException(nameof(source));
+                return null;
 
             var target = Activator.CreateInstance<T>();
             CopyPropertiesInternal(source, target);
