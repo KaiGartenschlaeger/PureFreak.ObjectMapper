@@ -2,7 +2,7 @@
 {
     public interface IObjectConverter
     {
-        void CopyPropeties<TSource, TTarget>(TSource source, TTarget target);
+        void CopyProperties<TSource, TTarget>(TSource source, TTarget target);
 
         T Convert<T>(object source);
     }

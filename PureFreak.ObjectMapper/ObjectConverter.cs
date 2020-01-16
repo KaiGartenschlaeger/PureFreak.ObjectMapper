@@ -26,7 +26,7 @@ namespace PureFreak.ObjectMapper
             return properties;
         }
 
-        public void CopyPropeties<TSource, TTarget>(TSource source, TTarget target)
+        public void CopyProperties<TSource, TTarget>(TSource source, TTarget target)
         {
             throw new System.NotImplementedException();
         }
