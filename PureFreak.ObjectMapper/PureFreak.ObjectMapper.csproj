@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Kai Gartenschläger</Authors>
+    <Company></Company>
+    <Product>PureFreak.ObjectMapper</Product>
+    <Description>Automatically converts objects of different types.</Description>
+    <Copyright>2020</Copyright>
+  </PropertyGroup>
+
+</Project>
