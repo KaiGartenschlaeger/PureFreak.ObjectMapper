@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace PureFreak.ObjectMapper
 {
-    public class ObjectMapper : IObjectMapper
+    public class ObjectConverter : IObjectConverter
     {
         private IList<PropertyMap> GetMatchingProperties(Type sourceType, Type targetType)
         {
@@ -26,7 +26,12 @@ namespace PureFreak.ObjectMapper
             return properties;
         }
 
-        public T Map<T>(object source)
+        public void CopyPropeties<TSource, TTarget>(TSource source, TTarget target)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public T Convert<T>(object source)
         {
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
@@ -45,11 +50,6 @@ namespace PureFreak.ObjectMapper
             }
 
             return result;
-        }
-
-        public void MapProperties<TSource, TTarget>(TSource source, TTarget target)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
