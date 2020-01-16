@@ -1,4 +1,5 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace PureFreak.ObjectMapper.Tests
 {
@@ -63,6 +64,22 @@ namespace PureFreak.ObjectMapper.Tests
             var target = converter.Convert<TargetEntity>(null);
 
             Assert.IsNull(target);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ShouldThrowExceptionIfSourceIsNull()
+        {
+            IObjectConverter converter = new ObjectConverter();
+            converter.MapProperties<SourceEntity, TargetEntity>(null, new TargetEntity());
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ShouldThrowExceptionIfTargetIsNull()
+        {
+            IObjectConverter converter = new ObjectConverter();
+            converter.MapProperties<SourceEntity, TargetEntity>(new SourceEntity(), null);
         }
     }
 }
