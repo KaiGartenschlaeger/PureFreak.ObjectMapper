@@ -1,26 +1,12 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using PureFreak.ObjectMapper.Tests.Entities;
 using System;
 
 namespace PureFreak.ObjectMapper.Tests
 {
     [TestClass]
-    public class ObjectMapperTests
+    public class ObjectConverterTests
     {
-        class SourceEntity
-        {
-            public int Id { get; set; }
-            public string Username { get; set; }
-            public string Firstname { get; set; }
-            public string Lastname { get; set; }
-        }
-
-        class TargetEntity
-        {
-            public int Id { get; set; }
-            public string Username { get; set; }
-            public string Password { get; set; }
-        }
-
         private SourceEntity CreateSourceEntity()
         {
             return new SourceEntity
@@ -33,7 +19,7 @@ namespace PureFreak.ObjectMapper.Tests
         }
 
         [TestMethod]
-        public void ShouldCopyObject()
+        public void ConvertShouldCopyObject()
         {
             var source = CreateSourceEntity();
 
@@ -45,7 +31,16 @@ namespace PureFreak.ObjectMapper.Tests
         }
 
         [TestMethod]
-        public void ShouldCopyProperties()
+        public void ConvertShouldReturnNullIfSourceIsNull()
+        {
+            IObjectConverter converter = new ObjectConverter();
+            var target = converter.Convert<TargetEntity>(null);
+
+            Assert.IsNull(target);
+        }
+
+        [TestMethod]
+        public void MapPropertiesShouldCopyProperties()
         {
             var source = CreateSourceEntity();
             var target = new TargetEntity();
@@ -58,17 +53,8 @@ namespace PureFreak.ObjectMapper.Tests
         }
 
         [TestMethod]
-        public void ShouldReturnNullIfSourceIsNull()
-        {
-            IObjectConverter converter = new ObjectConverter();
-            var target = converter.Convert<TargetEntity>(null);
-
-            Assert.IsNull(target);
-        }
-
-        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ShouldThrowExceptionIfSourceIsNull()
+        public void MapPropertiesShouldThrowExceptionIfSourceIsNull()
         {
             IObjectConverter converter = new ObjectConverter();
             converter.MapProperties<SourceEntity, TargetEntity>(null, new TargetEntity());
@@ -76,7 +62,7 @@ namespace PureFreak.ObjectMapper.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ShouldThrowExceptionIfTargetIsNull()
+        public void MapPropertiesShouldThrowExceptionIfTargetIsNull()
         {
             IObjectConverter converter = new ObjectConverter();
             converter.MapProperties<SourceEntity, TargetEntity>(new SourceEntity(), null);
