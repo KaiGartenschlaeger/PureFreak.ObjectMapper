@@ -26,9 +26,27 @@ namespace PureFreak.ObjectMapper
             return properties;
         }
 
+        private void CopyPropertiesInternal(object source, object target)
+        {
+            var sourceType = source.GetType();
+            var targetType = target.GetType();
+
+            var matchingProperties = GetMatchingProperties(sourceType, targetType);
+            foreach (var match in matchingProperties)
+            {
+                var value = match.SourceProperty.GetValue(source);
+                match.TargetProperty.SetValue(target, value);
+            }
+        }
+
         public void MapProperties<TSource, TTarget>(TSource source, TTarget target)
         {
-            throw new System.NotImplementedException();
+            if (source == null)
+                throw new ArgumentNullException(nameof(source));
+            if (target == null)
+                throw new ArgumentNullException(nameof(target));
+
+            CopyPropertiesInternal(source, target);
         }
 
         public T Convert<T>(object source)
@@ -36,20 +54,10 @@ namespace PureFreak.ObjectMapper
             if (source == null)
                 throw new ArgumentNullException(nameof(source));
 
-            var sourceType = source.GetType();
-            var targetType = typeof(T);
+            var target = Activator.CreateInstance<T>();
+            CopyPropertiesInternal(source, target);
 
-            var matchingProperties = GetMatchingProperties(sourceType, targetType);
-
-            var result = Activator.CreateInstance<T>();
-
-            foreach (var match in matchingProperties)
-            {
-                var value = match.SourceProperty.GetValue(source);
-                match.TargetProperty.SetValue(result, value);
-            }
-
-            return result;
+            return target;
         }
     }
 }
